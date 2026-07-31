@@ -41,7 +41,7 @@ test('strict Option<&T> accepts an instance as Some', (t) => {
 })
 
 test('strict Option<&T> maps null to None', (t) => {
-  t.is(issue3427Option(null), -1)
+  t.is(issue3427Option(null), null)
 })
 
 test('strict Option<&T> rejects a value that is not an instance', (t) => {

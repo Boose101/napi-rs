@@ -1071,9 +1071,10 @@ export declare function issue3427Either(input: RenamedForIssue3427 | number): nu
  * `Option<&T>` under `#[napi(strict)]` is validated via `Option::validate` -> `T::validate`,
  * the same constructor lookup. `Some` must accept a valid instance, `None` maps from
  * `null`/`undefined`, and a non-instance is rejected. Before the fix, `Some` threw for a valid
- * instance. Returns the wrapped value for `Some`, or `-1` for `None`.
+ * instance. Returns the wrapped value for `Some`, or `null` for `None` -- `Option<u32>` keeps
+ * the full u32 range and keeps `None` distinct from every value, including `u32::MAX`.
  */
-export declare function issue3427Option(input?: RenamedForIssue3427 | undefined | null): number
+export declare function issue3427Option(input?: RenamedForIssue3427 | undefined | null): number | null
 
 /**
  * A strict argument is validated via `ValidateNapiValue::validate()` before conversion, so a

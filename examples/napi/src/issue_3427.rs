@@ -49,11 +49,9 @@ pub fn issue_3427_strict(input: &RenamedForIssue3427Rust) -> u32 {
 /// `Option<&T>` under `#[napi(strict)]` is validated via `Option::validate` -> `T::validate`,
 /// the same constructor lookup. `Some` must accept a valid instance, `None` maps from
 /// `null`/`undefined`, and a non-instance is rejected. Before the fix, `Some` threw for a valid
-/// instance. Returns the wrapped value for `Some`, or `-1` for `None`.
+/// instance. Returns the wrapped value for `Some`, or `null` for `None` -- `Option<u32>` keeps
+/// the full u32 range and keeps `None` distinct from every value, including `u32::MAX`.
 #[napi(strict)]
-pub fn issue_3427_option(input: Option<&RenamedForIssue3427Rust>) -> i32 {
-  match input {
-    Some(instance) => instance.value as i32,
-    None => -1,
-  }
+pub fn issue_3427_option(input: Option<&RenamedForIssue3427Rust>) -> Option<u32> {
+  input.map(|instance| instance.value)
 }
