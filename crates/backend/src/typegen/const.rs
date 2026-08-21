@@ -12,7 +12,11 @@ impl ToTypeDef for NapiConst {
       return None;
     }
 
-    add_alias(self.name.to_string(), self.js_name.to_string());
+    add_alias(
+      self.name.to_string(),
+      self.js_name.to_string(),
+      self.js_mod.as_deref(),
+    );
 
     Some(TypeDef {
       kind: "const".to_owned(),
@@ -25,6 +29,9 @@ impl ToTypeDef for NapiConst {
       ),
       js_mod: self.js_mod.to_owned(),
       js_doc: JSDoc::new(&self.comments),
+      producer_crate: super::producer_crate(),
+      instance_extends: None,
+      non_inheritable_methods: Vec::new(),
     })
   }
 }

@@ -12,7 +12,11 @@ impl ToTypeDef for NapiType {
       return None;
     }
 
-    add_alias(self.name.to_string(), self.js_name.to_string());
+    add_alias(
+      self.name.to_string(),
+      self.js_name.to_string(),
+      self.js_mod.as_deref(),
+    );
 
     Some(TypeDef {
       kind: "type".to_owned(),
@@ -21,6 +25,9 @@ impl ToTypeDef for NapiType {
       def: ty_to_ts_type(&self.value, false, false, false).0,
       js_mod: self.js_mod.to_owned(),
       js_doc: JSDoc::new(&self.comments),
+      producer_crate: super::producer_crate(),
+      instance_extends: None,
+      non_inheritable_methods: Vec::new(),
     })
   }
 }

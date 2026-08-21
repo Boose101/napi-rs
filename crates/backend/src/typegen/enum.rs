@@ -7,7 +7,11 @@ impl ToTypeDef for NapiEnum {
       return None;
     }
 
-    add_alias(self.name.to_string(), self.js_name.to_string());
+    add_alias(
+      self.name.to_string(),
+      self.js_name.to_string(),
+      self.js_mod.as_deref(),
+    );
 
     Some(TypeDef {
       kind: if self.is_string_enum {
@@ -20,6 +24,9 @@ impl ToTypeDef for NapiEnum {
       def: self.gen_ts_variants(),
       js_doc: JSDoc::new(&self.comments),
       js_mod: self.js_mod.to_owned(),
+      producer_crate: super::producer_crate(),
+      instance_extends: None,
+      non_inheritable_methods: Vec::new(),
     })
   }
 }
